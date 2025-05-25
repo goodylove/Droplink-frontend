@@ -1,6 +1,6 @@
 # Clone the repo
 
-git clone https://github.com/your-username/droplink-frontend.git
+git clone https://github.com/goodylove/droplink-frontend.git
 
 # Install dependencies
 
