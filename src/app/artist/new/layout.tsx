@@ -12,12 +12,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Artist | DropLink",
+  title: "Artist | Create Your Page | DropLink",
   description:
     "All your music, profiles, and more in one place. Create your artist page on DropLink.",
 };
 
-export default function ArtistLayout({
+export default function NewLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
