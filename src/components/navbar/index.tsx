@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-// import { PiList } from "react-icons/pi";
 import { Button } from "../ui/button";
 import Link from "next/link";
 function Navbar() {
@@ -24,9 +23,6 @@ function Navbar() {
               Get Started
             </Link>
           </Button>
-
-          {/* mobile */}
-          {/* <PiList size={40} className=" cursor-pointer md:hidden flex" /> */}
         </ul>
       </div>
     </nav>

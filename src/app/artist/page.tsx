@@ -1,9 +1,6 @@
+import ArtistTemplate from "@/components/templates/artistTemplate";
 import React from "react";
 
 export default function ArtistPage() {
-  return (
-    <div>
-      <h2>Hello</h2>
-    </div>
-  );
+  return <ArtistTemplate />;
 }
