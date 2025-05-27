@@ -1,5 +1,6 @@
 import MainNav from "@/components/navbar/mainNav";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 const ArtistTemplate = () => {
@@ -17,7 +18,7 @@ const ArtistTemplate = () => {
             sound, your story, and your socials effortlessly.
           </p>
           <Button className="bg-accent cursor-pointer h-12 w-full   font-sans text-white hover:bg-accent/90 transition duration-300 ease-in-out text-base leading-[24px] flex items-center justify-center">
-            Create Your Link
+            <Link href="/artist/new">Create Your Link</Link>
           </Button>
         </div>
       </div>
