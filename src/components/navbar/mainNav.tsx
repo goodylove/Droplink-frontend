@@ -43,7 +43,7 @@ function MainNav() {
           DropLink
         </span>
       </div>
-      <ul className="flex items-center md:space-x-6 space-x-2">
+      <div className="flex items-center md:space-x-6 space-x-2">
         <Image
           src="/images/card.avif"
           alt="card"
@@ -64,7 +64,7 @@ function MainNav() {
         >
           Logout
         </Button>
-      </ul>
+      </div>
     </nav>
   );
 }

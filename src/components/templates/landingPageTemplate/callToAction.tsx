@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 function CallToAction() {
@@ -13,7 +14,7 @@ function CallToAction() {
           level.
         </p>
         <Button className=" h-10 bg-accent hover:bg-accent/90 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition duration-300">
-          Get Started
+          <Link href="/register"> Get Started</Link>
         </Button>
       </div>
     </section>
