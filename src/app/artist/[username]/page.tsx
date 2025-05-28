@@ -1,8 +1,8 @@
+import SingleArtistTemplate from "@/components/templates/singleArtistPage";
 import React from "react";
 
 function ArtistPublicLinkPage({ params }: { params: { username: string } }) {
-  console.log(params.username);
-  return <div>hello</div>;
+  return <SingleArtistTemplate username={params.username} />;
 }
 
 export default ArtistPublicLinkPage;
