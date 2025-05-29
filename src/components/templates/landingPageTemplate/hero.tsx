@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 function HeroSection() {
@@ -14,7 +15,7 @@ function HeroSection() {
             your socials effortlessly
           </p>
           <Button className="btn btn-primary h-12 font-poppins text-base  w-36 cursor-pointer  text-white font-semibold bg-primary hover:bg-accent transition-all duration-200 ease-in-out">
-            Get Started
+            <Link href="/register">Get Started</Link>
           </Button>
         </div>
       </div>
