@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
+import { RegisterUser } from "@/controller/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -33,6 +36,9 @@ const formSchema = z
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -49,7 +55,22 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    setLoading(true);
+
+    try {
+      const res = await RegisterUser(data);
+      if (res.message) {
+        toast.success(res.message);
+        router.push("/login");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+        console.error("Error registering user:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -131,14 +152,14 @@ export function RegisterForm() {
                     placeholder="Confirm Password"
                     {...field}
                     className="py-5 pr-10 text-black font-normal font-sans"
-                    type={showPassword ? "text" : "password"}
+                    type={showConfirmPassword ? "text" : "password"}
                   />
                   <button
                     type="button"
-                    onClick={togglePasswordVisibility}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
                     className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
                   >
-                    {showPassword ? <PiEyeSlash /> : <PiEyeLight />}
+                    {showConfirmPassword ? <PiEyeSlash /> : <PiEyeLight />}
                   </button>
                 </div>
               </FormControl>
@@ -154,7 +175,7 @@ export function RegisterForm() {
           disabled={!form.formState.isValid}
           variant="default"
         >
-          Register
+          {loading ? "Creating Account..." : "Create Account"}
         </Button>
 
         {/* Login Link */}

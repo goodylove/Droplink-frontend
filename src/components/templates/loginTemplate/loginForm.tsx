@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
+import { LoginUser } from "@/controller/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("You email is required"),
@@ -24,6 +27,8 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -37,7 +42,22 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    setLoading(true);
+
+    try {
+      const res = await LoginUser(data);
+      if (res) {
+        toast.success(res.message);
+        router.push("/artist");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+        console.error("Error registering user:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,7 +135,7 @@ export function LoginForm() {
           disabled={!form.formState.isValid}
           variant="default"
         >
-          Submit
+          {loading ? "Loading..." : "Login"}
         </Button>
         <div className="text-center text-sm text-secondary font-poppins">
           Don&apos;t have an account?{" "}
