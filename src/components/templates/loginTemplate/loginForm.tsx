@@ -19,6 +19,7 @@ import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { LoginUser } from "@/controller/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   email: z.string().email("You email is required"),
@@ -27,8 +28,9 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -41,23 +43,24 @@ export function LoginForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setLoading(true);
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      return await LoginUser(data);
+    },
+    onSuccess: (data) => {
+      // cache the user data immediately after login
+      queryClient.setQueryData(["user"], data.userDetails);
+      toast.success(data.message);
+      router.push("/artist");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+      console.error("Error logging in user:", error);
+    },
+  });
 
-    try {
-      const res = await LoginUser(data);
-      if (res) {
-        toast.success(res.message);
-        router.push("/artist");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-        console.error("Error registering user:", error);
-      }
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    mutation.mutate(data);
   };
 
   return (
@@ -135,7 +138,7 @@ export function LoginForm() {
           disabled={!form.formState.isValid}
           variant="default"
         >
-          {loading ? "Loading..." : "Login"}
+          {mutation.isPending ? "Loading..." : "Login"}
         </Button>
         <div className="text-center text-sm text-secondary font-poppins">
           Don&apos;t have an account?{" "}

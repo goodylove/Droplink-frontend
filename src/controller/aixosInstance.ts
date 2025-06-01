@@ -25,6 +25,7 @@ API.interceptors.response.use(
         // Handle unauthorized access, e.g., redirect to login
         console.error("Unauthorized access - redirecting to login");
         window.location.href = "/login";
+        return Promise.reject(new Error("Unauthorized access"));
       }
       if (error.response.status === 500) {
         console.error("Internal server error - please try again later");

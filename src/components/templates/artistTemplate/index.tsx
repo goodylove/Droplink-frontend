@@ -1,9 +1,30 @@
+"use client";
+
 import MainNav from "@/components/navbar/mainNav";
 import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/context/userContext";
 import Link from "next/link";
 import React from "react";
 
 const ArtistTemplate = () => {
+  const { user, isLoading, isError } = useUserContext();
+  console.log("User data:", user);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">Error loading user data.</p>
+      </div>
+    );
+  }
   return (
     <main className="bg-gray-100 min-h-screen">
       <MainNav />

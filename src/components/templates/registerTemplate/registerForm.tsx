@@ -19,6 +19,7 @@ import { PiEyeLight, PiEyeSlash } from "react-icons/pi";
 import { RegisterUser } from "@/controller/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 
 const formSchema = z
   .object({
@@ -37,7 +38,6 @@ const formSchema = z
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const togglePasswordVisibility = () => {
@@ -54,23 +54,24 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    setLoading(true);
-
-    try {
-      const res = await RegisterUser(data);
-      if (res.message) {
-        toast.success(res.message);
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof formSchema>) => {
+      return await RegisterUser(data);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        toast.success(data.message);
         router.push("/login");
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-        console.error("Error registering user:", error);
-      }
-    } finally {
-      setLoading(false);
-    }
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+      console.error("Error registering user:", error);
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    mutation.mutate(data);
   };
 
   return (
@@ -126,13 +127,13 @@ export function RegisterForm() {
                     className="py-5 pr-10 text-black font-normal font-sans"
                     type={showPassword ? "text" : "password"}
                   />
-                  <button
+                  <Button
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
                   >
                     {showPassword ? <PiEyeSlash /> : <PiEyeLight />}
-                  </button>
+                  </Button>
                 </div>
               </FormControl>
               <FormMessage />
@@ -175,7 +176,7 @@ export function RegisterForm() {
           disabled={!form.formState.isValid}
           variant="default"
         >
-          {loading ? "Creating Account..." : "Create Account"}
+          {mutation.isPending ? "Creating Account..." : "Create Account"}
         </Button>
 
         {/* Login Link */}
