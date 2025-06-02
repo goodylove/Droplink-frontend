@@ -9,8 +9,17 @@ export interface LoginInterface {
   password: string;
 }
 
+export interface User {
+  createdAt: string;
+  email: string;
+  name: string;
+  updatedAt: string;
+
+  _id: string;
+}
 export interface UserContextType {
-  user: any; // Replace 'any' with a more specific later
+  user: User; // Replace 'any' with a more specific later
   isLoading: boolean;
   isError: boolean;
+  handleLogout: () => void;
 }

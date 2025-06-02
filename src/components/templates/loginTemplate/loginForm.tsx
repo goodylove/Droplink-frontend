@@ -48,13 +48,12 @@ export function LoginForm() {
       return await LoginUser(data);
     },
     onSuccess: (data) => {
-      // cache the user data immediately after login
-      queryClient.setQueryData(["user"], data.userDetails);
+      queryClient.setQueryData(["user"], data?.userDetails);
       toast.success(data.message);
       router.push("/artist");
     },
     onError: (error: Error) => {
-      toast.error(error.message);
+      toast.error("Invalid credentials");
       console.error("Error logging in user:", error);
     },
   });

@@ -127,13 +127,13 @@ export function RegisterForm() {
                     className="py-5 pr-10 text-black font-normal font-sans"
                     type={showPassword ? "text" : "password"}
                   />
-                  <Button
+                  <button
                     type="button"
                     onClick={togglePasswordVisibility}
                     className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-500"
                   >
                     {showPassword ? <PiEyeSlash /> : <PiEyeLight />}
-                  </Button>
+                  </button>
                 </div>
               </FormControl>
               <FormMessage />
