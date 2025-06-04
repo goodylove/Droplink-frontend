@@ -4,7 +4,10 @@ import React from "react";
 
 function HeroSection() {
   return (
-    <section className=" md:min-h-screen  h-[80vh] items-center flex justify-center bg-base-200">
+    <section
+      className=" md:min-h-screen  h-[80vh] items-center flex justify-center bg-gradient-to-b from-background/90 via-primary/90 to-accent/90 backdrop-blur-sm
+    "
+    >
       <div className="text-center">
         <div className="max-w-lg md:max-w-4xl mt-5 mx-auto flex flex-col items-center justify-center text-center">
           <h1 className=" text-5xl md:text-7xl font-bold  tracking-wide font-poppins text-text">

@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useUserContext } from "@/context/userContext";
 
 function MainNav() {
   const ref = React.useRef<HTMLElement>(null);
   const [showLogout, setShowLogout] = useState(false);
-
+  const { handleLogout } = useUserContext();
   const toggleLogout = () => {
     setShowLogout((prev) => !prev);
   };
@@ -56,6 +57,7 @@ function MainNav() {
           onClick={toggleLogout}
         />
         <Button
+          onClick={handleLogout}
           className={`bg-accent h-8 w-18 font-poppins text-white hover:bg-accent cursor-pointer hover:text-white transition duration-300 ease-in-out text-sm leading-[24px] ${
             showLogout
               ? "absolute top-22 duration-300  transition  right-4 md:static "
