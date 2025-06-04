@@ -22,4 +22,5 @@ export interface UserContextType {
   isLoading: boolean;
   isError: boolean;
   handleLogout: () => void;
+  // isAuthenticated: boolean;
 }

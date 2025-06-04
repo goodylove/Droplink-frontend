@@ -29,7 +29,7 @@ const ArtistTemplate = () => {
       <div className="w-full flex flex-col mx-auto justify-center items-center mt-20 h-full text-center px-4">
         <div className="bg-white md:p-8 p-4 rounded-lg shadow-lg max-w-md">
           <h2 className="text-3xl font-bold text-primary mb-4 font-sans">
-            Hi {user.name}👋
+            Hi {user?.name}👋
           </h2>
           <p className="text-gray-700 text-lg mb-6 font-sans">
             Welcome to DropLink! Your music deserves the spotlight. Share your

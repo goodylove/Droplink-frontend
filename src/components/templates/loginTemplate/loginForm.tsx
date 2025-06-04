@@ -28,9 +28,9 @@ const formSchema = z.object({
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const queryClient = useQueryClient();
 
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -50,11 +50,15 @@ export function LoginForm() {
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data?.userDetails);
       toast.success(data.message);
-      router.push("/artist");
+
+      const params = new URLSearchParams(window.location.search);
+      const rawRedirect = params.get("redirect") ?? "";
+      const redirectUrl = rawRedirect.startsWith("/") ? rawRedirect : "/artist";
+
+      router.push(redirectUrl);
     },
     onError: (error: Error) => {
-      toast.error("Invalid credentials");
-      console.error("Error logging in user:", error);
+      toast.error(error.message);
     },
   });
 
@@ -82,24 +86,6 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  placeholder="Password"
-                  {...field}
-                  className="py-5 "
-                  type="password"
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
         <FormField
           control={form.control}

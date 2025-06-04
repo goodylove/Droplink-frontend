@@ -1,7 +1,10 @@
+import { useUserContext } from "@/context/userContext";
 import { getCurrentUser } from "@/controller/auth";
 import { useQuery } from "@tanstack/react-query";
 
 export const useCurrentUser = () => {
+  // const { isAuthenticated } = useUserContext();
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
@@ -10,6 +13,7 @@ export const useCurrentUser = () => {
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: 1,
+    // enabled: !!isAuthenticated
   });
 
   return {

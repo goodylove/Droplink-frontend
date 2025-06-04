@@ -1,6 +1,6 @@
-import { LoginOut } from "@/controller/auth";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getCurrentUser, LoginOut } from "@/controller/auth";
 import { UserContextType } from "@/types/interface";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { createContext } from "react";
 import { toast } from "react-toastify";
@@ -12,8 +12,22 @@ export const UserContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { data: user, isLoading, isError } = useCurrentUser();
+  // const { data: user, isLoading, isError } = useCurrentUser();
   const route = useRouter();
+
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const response = await getCurrentUser();
+      return response.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: 1,
+  });
 
   async function handleLogout() {
     try {
