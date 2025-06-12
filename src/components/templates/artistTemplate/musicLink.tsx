@@ -12,19 +12,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import CardLinks from "@/components/common/CardLinks";
-interface MusicLinkProps {
-  name: string;
-  link: string;
-}
+import { MusicLinkComponentProps } from "@/types/interface";
 
-function MusicLinkComponent() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [musicLinks, setMusicLinks] = React.useState<MusicLinkProps[]>([]);
-  const [musicInput, setMusicInput] = React.useState({
-    name: "",
-    link: "",
-  });
-
+function MusicLinkComponent({
+  isOpen,
+  setIsOpen,
+  musicLinks,
+  setMusicLinks,
+  setMusicInput,
+  musicInput,
+}: MusicLinkComponentProps) {
   function handleChangeMusicInput(event: React.ChangeEvent<HTMLInputElement>) {
     setMusicInput({
       ...musicInput,
@@ -87,6 +84,7 @@ function MusicLinkComponent() {
                 if (musicInput.name && musicInput.link) {
                   setMusicLinks([...musicLinks, musicInput]);
                   setMusicInput({ name: "", link: "" });
+
                   setIsOpen(false);
                 }
               }}

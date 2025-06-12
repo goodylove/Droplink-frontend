@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export default function middleware(req: NextRequest) {
   const route = ["/artist", "/artist/new"];
   const token = req.cookies.get("accessToken")?.value;
-  console.log(token);
+  // console.log(token);
 
   const { pathname } = req.nextUrl;
 

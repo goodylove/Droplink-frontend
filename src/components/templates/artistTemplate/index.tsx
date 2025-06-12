@@ -9,7 +9,6 @@ import React from "react";
 
 const ArtistTemplate = () => {
   const { user, isLoading, isError } = useUserContext();
-  console.log("User data:", user);
 
   if (isLoading) {
     return (
@@ -23,7 +22,7 @@ const ArtistTemplate = () => {
     return <ErrorComponent />;
   }
   return (
-    <main className="bg-gray-100 min-h-screen">
+    <main className="bg-gray-100 min-h-screen overflow-x-hidden">
       <MainNav />
 
       <div className="w-full flex flex-col mx-auto justify-center items-center mt-20 h-full text-center px-4">

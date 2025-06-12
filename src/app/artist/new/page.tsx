@@ -1,8 +1,8 @@
+import CreateNewArtistTemplate from "@/components/templates/artistTemplate/createArtist";
 import React from "react";
-import NewTemplate from "@/components/templates/artistTemplate/newTemplate";
 
 function NewPage() {
-  return <NewTemplate />;
+  return <CreateNewArtistTemplate />;
 }
 
 export default NewPage;

@@ -21,33 +21,71 @@ import { useForm } from "react-hook-form";
 import MusicLinkComponent from "./musicLink";
 import SocialLink from "./socialLink";
 import { Button } from "@/components/ui/button";
-// import { z } from "zod";
-// import { zodResolver } from "@hookform/resolvers/zod";
-const NewTemplate = () => {
-  const form = useForm({
-    // resolver: zodResolver(),
-  });
-  const [image, setImage] = React.useState<File | string>("");
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArtistSchema } from "@/constants/schema";
 
-  function handImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
+import { useArtistFormUtils } from "@/hooks/useArtistHooks";
+import { toast } from "react-toastify";
+
+const CreateNewArtistTemplate = () => {
+  const form = useForm<z.infer<typeof ArtistSchema>>({
+    resolver: zodResolver(ArtistSchema),
+    defaultValues: {
+      title: "",
+      bio: "",
+      username: "",
+      // links: [],
+      // socials: [],
+    },
+  });
+
+  const {
+    handImageChange,
+    handleEditImage,
+    socialInput,
+    setMusicInput,
+    socialLinks,
+    setSocialLinks,
+    setMusicLinks,
+    setSocialInput,
+    image,
+    isOpen,
+    isOpenSocial,
+    setIsOpenSocial,
+
+    setIsOpen,
+    musicLinks,
+    musicInput,
+    fileInputRef,
+    // mutation,
+  } = useArtistFormUtils();
+
+  const onSubmit = (value: z.infer<typeof ArtistSchema>) => {
+    if (musicLinks.length == 0 || socialLinks.length == 0) {
+      toast.error("Platform and links are required");
+      return;
     }
-  }
-  const handleEditImage = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    const data = {
+      ...value,
+      musicLinks,
+      SocialLink,
+    };
+
+    console.log(data);
   };
+
   return (
     <main className="overflow-x-hidden">
       <MainNav />
       <div className="bg-gray-100 min-h-screen py-10 px-4">
         <div className="max-w-2xl mx-auto w-full bg-text p-6 ">
           <Form {...form}>
-            <form action="" className="space-y-8 ">
+            <form
+              action=""
+              className="space-y-8 "
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
               <div className="max-w-2xl mx-auto w-full bg-text p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold font-sans text-primary mb-5">
                   PERSONAL INFO
@@ -164,9 +202,23 @@ const NewTemplate = () => {
                   )}
                 />
               </div>
-              <MusicLinkComponent />
+              <MusicLinkComponent
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                musicLinks={musicLinks}
+                musicInput={musicInput}
+                setMusicLinks={setMusicLinks}
+                setMusicInput={setMusicInput}
+              />
 
-              <SocialLink />
+              <SocialLink
+                isOpen={isOpenSocial}
+                setIsOpen={setIsOpenSocial}
+                socialLinks={socialLinks}
+                setSocialLinks={setSocialLinks}
+                socialInput={socialInput}
+                setSocialInput={setSocialInput}
+              />
 
               <Button className="w-full h-12 font-sans text-lg">Save</Button>
             </form>
@@ -177,4 +229,4 @@ const NewTemplate = () => {
   );
 };
 
-export default NewTemplate;
+export default CreateNewArtistTemplate;

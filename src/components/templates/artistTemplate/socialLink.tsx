@@ -12,21 +12,18 @@ import CardLinks from "@/components/common/CardLinks";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { SocialLinkComponentProps } from "@/types/interface";
 
-interface SocialLinkProps {
-  name: string;
-  link: string;
-}
-function SocialLink() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [socialLinks, setsocialLinks] = React.useState<SocialLinkProps[]>([]);
-  const [socialInput, setsocialInput] = React.useState({
-    name: "",
-    link: "",
-  });
-
+function SocialLink({
+  isOpen,
+  setIsOpen,
+  socialLinks,
+  socialInput,
+  setSocialLinks,
+  setSocialInput,
+}: SocialLinkComponentProps) {
   function handleChangeMusicInput(event: React.ChangeEvent<HTMLInputElement>) {
-    setsocialInput({
+    setSocialInput({
       ...socialInput,
       [event.target.name]: event.target.value,
     });
@@ -37,7 +34,7 @@ function SocialLink() {
       <h3 className="text-xl font-semibold font-sans text-primary ">
         SOCIAL LINKS
       </h3>
-      <CardLinks data={socialLinks} setData={setsocialLinks} />
+      <CardLinks data={socialLinks} setData={setSocialLinks} />
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <p className="text-accent underline text-sm font-sans cursor-pointer my-4">
@@ -85,8 +82,8 @@ function SocialLink() {
               className="cursor-pointer"
               onClick={() => {
                 if (socialInput.name && socialInput.link) {
-                  setsocialLinks([...socialLinks, socialInput]);
-                  setsocialInput({ name: "", link: "" });
+                  setSocialLinks([...socialLinks, socialInput]);
+                  setSocialInput({ name: "", link: "" });
                   setIsOpen(false);
                 }
               }}
