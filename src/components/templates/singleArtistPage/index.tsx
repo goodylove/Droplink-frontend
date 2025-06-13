@@ -1,15 +1,20 @@
 "use client";
 
-import { songs } from "@/constants/data";
+import ErrorComponent from "@/components/common/errorComponent";
+
+import { getArtistByUserName } from "@/controller/artist";
+import { useQuery } from "@tanstack/react-query";
 import { Pause, Play, Share2 } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 interface SingleArtistTemplateProps {
   username: string;
 }
 
 function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
+  console.log(username);
   const [currentlyPlaying, setCurrentlyPlaying] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -73,6 +78,36 @@ function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
     };
   }, []);
 
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["username"],
+    queryFn: async () => await getArtistByUserName(username),
+  });
+
+  function handleShareLink() {
+    if (typeof window !== undefined) {
+      navigator.clipboard
+        .writeText(`${window.location.origin}/artist/share/${username}`)
+        .then(() => {
+          toast.success("copied!!");
+        })
+        .catch(() => {
+          toast.error("failed to copy");
+        });
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <ErrorComponent />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center pb-8 md:p-6 bg-gradient-to-br from-black  via-primary   to-accent">
       <div className="bg-black backdrop-blur-sm border-b border-purple-500/20 w-full  ">
@@ -92,7 +127,10 @@ function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
               {/* <button className="p-2 rounded-full bg-purple-600/20 hover:bg-purple-600/30 transition-colors">
                 <Heart className="h-5 w-5 text-purple-400" />
               </button> */}
-              <button className="p-2 rounded-full bg-purple-600/20 hover:bg-purple-600/30 transition-colors">
+              <button
+                onClick={handleShareLink}
+                className="p-2 rounded-full bg-purple-600/20 hover:bg-purple-600/30 transition-colors"
+              >
                 <Share2 className="h-5 w-5 text-purple-400" />
               </button>
             </div>
@@ -118,7 +156,7 @@ function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
       {/* Music Links */}
       <div className="mt-6 w-full max-w-md">
         <h2 className="text-xl font-semibold text-black  mb-4  text-center">
-          Music title
+          {data?.artist.title}
         </h2>
         {/* <ul className="space-y-3 px-3">
           {songs.map((link, index) => (
@@ -134,7 +172,7 @@ function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
         </ul> */}
 
         <div className="space-y-3 px-2">
-          {songs.map((song) => (
+          {data?.artist.links.map((song: any) => (
             <div
               key={song.id}
               className={`group flex items-center space-x-8 p-3 bg-background rounded-xl transition-all duration-300 cursor-pointer ${
@@ -153,11 +191,11 @@ function SingleArtistTemplate({ username }: SingleArtistTemplateProps) {
                 ) : (
                   <div className="w-12 h-12 rounded-lg overflow-hidden border border-purple-500/30">
                     <Image
-                      src={song.coverUrl || "/placeholder.svg"}
-                      alt={song.title}
-                      width={48}
-                      height={48}
-                      className="w-full h-full object-cover"
+                      className="inline-block  rounded-full"
+                      src={`https://logo.clearbit.com/${song?.platform}.com`}
+                      alt="Spotify"
+                      width={70}
+                      height={70}
                     />
                   </div>
                 )}

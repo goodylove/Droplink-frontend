@@ -32,31 +32,32 @@ export interface MusicLinkProps {
   link: string;
 }
 
+export interface MusicLink {
+  platform: string;
+  link: string;
+}
+
+export interface SocialLink {
+  name: string;
+  link: string;
+}
+
 export interface MusicLinkComponentProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  musicLinks: MusicLinkProps[];
+  musicLinks: MusicLink[];
   musicInput: MusicLinkProps;
-  setMusicLinks: Dispatch<SetStateAction<{ name: string; link: string }[]>>;
+  setMusicLinks: Dispatch<SetStateAction<{ platform: string; link: string }[]>>;
   setMusicInput: (value: MusicLinkProps) => void;
 }
 
 export interface SocialLinkComponentProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  socialLinks: MusicLinkProps[];
+  socialLinks: SocialLink[];
   socialInput: MusicLinkProps;
   setSocialLinks: Dispatch<SetStateAction<{ name: string; link: string }[]>>;
   setSocialInput: (value: MusicLinkProps) => void;
-}
-interface MusicLink {
-  platform: string;
-  url: string;
-}
-
-interface SocialLink {
-  name: string;
-  url: string;
 }
 
 export interface ArtistProfile {
@@ -65,4 +66,11 @@ export interface ArtistProfile {
   username: string;
   links: MusicLink[];
   socials: SocialLink[];
+}
+
+export interface CardLinksProps {
+  data: { platform: string; link: string }[];
+  setData: React.Dispatch<
+    React.SetStateAction<{ platform: string; link: string }[]>
+  >;
 }

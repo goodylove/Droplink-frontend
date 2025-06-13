@@ -58,7 +58,7 @@ const CreateNewArtistTemplate = () => {
     musicLinks,
     musicInput,
     fileInputRef,
-    // mutation,
+    mutation,
   } = useArtistFormUtils();
 
   const onSubmit = (value: z.infer<typeof ArtistSchema>) => {
@@ -66,12 +66,13 @@ const CreateNewArtistTemplate = () => {
       toast.error("Platform and links are required");
       return;
     }
+    console.log(musicLinks);
     const data = {
       ...value,
-      musicLinks,
-      SocialLink,
+      links: musicLinks,
+      socials: socialLinks,
     };
-
+    mutation.mutate(data);
     console.log(data);
   };
 
@@ -220,7 +221,9 @@ const CreateNewArtistTemplate = () => {
                 setSocialInput={setSocialInput}
               />
 
-              <Button className="w-full h-12 font-sans text-lg">Save</Button>
+              <Button className="w-full h-12 font-sans text-lg">
+                {mutation?.isPending ? "saving...." : "save"}
+              </Button>
             </form>
           </Form>
         </div>

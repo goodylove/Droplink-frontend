@@ -1,7 +1,9 @@
 import { CreateArtist } from "@/controller/artist";
-import { ArtistProfile } from "@/types/interface";
+import { ArtistProfile, MusicLink, SocialLink } from "@/types/interface";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 export interface MusicLinkProps {
   name: string;
@@ -14,16 +16,17 @@ export interface SocialLinkProps {
 }
 
 export function useArtistFormUtils() {
+  const router = useRouter();
   const [image, setImage] = useState<File | string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSocial, setIsOpenSocial] = useState(false);
-  const [musicLinks, setMusicLinks] = useState<MusicLinkProps[]>([]);
+  const [musicLinks, setMusicLinks] = useState<MusicLink[]>([]);
   const [musicInput, setMusicInput] = useState({
     name: "",
     link: "",
   });
-  const [socialLinks, setSocialLinks] = useState<MusicLinkProps[]>([]);
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [socialInput, setSocialInput] = useState({
     name: "",
     link: "",
@@ -43,6 +46,13 @@ export function useArtistFormUtils() {
 
   const mutation = useMutation({
     mutationFn: async (data: ArtistProfile) => await CreateArtist(data),
+    onSuccess: (data) => {
+      if (data.data !== null) {
+        toast.success("You have Successfully uploaded your data");
+        console.log(data);
+        router.push(data?.publicLink);
+      }
+    },
   });
 
   return {

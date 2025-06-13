@@ -2,13 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/button";
 import { IoClose } from "react-icons/io5";
-
-interface CardLinksProps {
-  data: { name: string; link: string }[];
-  setData: React.Dispatch<
-    React.SetStateAction<{ name: string; link: string }[]>
-  >;
-}
+import { CardLinksProps } from "@/types/interface";
 
 function CardLinks({ data, setData }: CardLinksProps) {
   return (
@@ -21,7 +15,7 @@ function CardLinks({ data, setData }: CardLinksProps) {
           <div className="text-black font-sans text-sm flex items-center gap-2">
             <Image
               className="inline-block  rounded-full"
-              src={`https://logo.clearbit.com/${link.name}.com`}
+              src={`https://logo.clearbit.com/${link.platform}.com`}
               alt="Spotify"
               width={70}
               height={70}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from "react";
 
 import {
@@ -34,6 +35,7 @@ function MusicLinkComponent({
       <h3 className="text-xl font-semibold font-sans text-primary ">
         MUSIC LINKS
       </h3>
+
       <CardLinks data={musicLinks} setData={setMusicLinks} />
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
@@ -82,7 +84,10 @@ function MusicLinkComponent({
               className="cursor-pointer"
               onClick={() => {
                 if (musicInput.name && musicInput.link) {
-                  setMusicLinks([...musicLinks, musicInput]);
+                  setMusicLinks([
+                    ...musicLinks,
+                    { platform: musicInput.name, link: musicInput.link },
+                  ]);
                   setMusicInput({ name: "", link: "" });
 
                   setIsOpen(false);
