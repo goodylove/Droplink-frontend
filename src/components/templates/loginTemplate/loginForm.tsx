@@ -58,9 +58,6 @@ export function LoginForm() {
 
       router.push(redirectUrl);
     },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {

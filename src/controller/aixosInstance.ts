@@ -32,7 +32,7 @@ API.interceptors.response.use(
         console.error("Internal server error - please try again later");
       }
 
-      return Promise.reject(error);
+      return Promise.reject(error.response.data || "An error occurred");
     }
   }
 );

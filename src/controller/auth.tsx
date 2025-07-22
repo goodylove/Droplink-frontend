@@ -22,8 +22,10 @@ export async function LoginUser(userObject: LoginInterface) {
 
     const data = response.data;
     return data;
-  } catch (error) {
-    console.error(error);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return toast.error(error.message);
   }
 }
 
