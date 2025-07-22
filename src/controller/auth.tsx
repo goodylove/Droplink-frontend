@@ -36,6 +36,16 @@ export async function LoginOut() {
     console.error("Error registering user:", error);
   }
 }
+
+export async function GoogleLogin() {
+  try {
+    const response = await API.get("/auth/google");
+    const data = response.data;
+    return data;
+  } catch (error) {
+    console.error("Error registering user:", error);
+  }
+}
 export async function getCurrentUser() {
   try {
     const response = await API.get("/artist/current-user");

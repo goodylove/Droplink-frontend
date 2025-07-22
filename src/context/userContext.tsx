@@ -26,7 +26,8 @@ export const UserContextProvider = ({
       return response.data;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes
-    retry: 1,
+    // retry: 1,
+    enabled: false, // Disable automatic refetching
   });
 
   async function handleLogout() {
