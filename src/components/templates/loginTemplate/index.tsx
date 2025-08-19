@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function LoginTemplate() {
   return (
-    <div className=" h-screen bg-background   overflow-hidden py-10">
+    <div className=" h-screen bg-[#0066cc]  overflow-hidden py-10">
       <Link href="/" className="flex  w-full ml-12 items-center cursor-pointer">
         <Image src="/images/logo.png" alt="logo" width={50} height={50} />
         <span className="ml-1 text-2xl font-bold font-poppins md:text-text text-primary ">

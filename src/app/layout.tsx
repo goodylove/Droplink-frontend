@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 
 import { ToastContainer } from "react-toastify";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Monoton, Bebas_Neue } from "next/font/google";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import Provider from "@/provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geistSans = Monoton({
+  variable: "--font-monoton",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const bebas = Bebas_Neue({
+  variable: "--font-bebas",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -30,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${bebas.variable} antialiased`}
       >
         <Provider>{children}</Provider>
         <ToastContainer position="top-center" />
